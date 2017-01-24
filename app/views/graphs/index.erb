@@ -1,6 +1,13 @@
-<%= link_to "new graph", :new_graph %>
+<script>
+function goThere(element) {
+  window.location.href= element.dataset.href;
+  return false;
+}
+</script>
+
+<h3><%= link_to "new graph", :new_graph %></h3>
 <ul>
 <%- @graphs.each do |graph| %>
-  <li><%= link_to graph.name, edit_graph_path(graph) %></li>
+  <li><a href="#" data-href="<%= edit_graph_path(graph) %>" onclick="return goThere(this); return false;"><%= graph.name %></a></li>
 <%- end %>
 </ul>

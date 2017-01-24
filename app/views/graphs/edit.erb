@@ -1,3 +1,6 @@
+  <p>
+  <%= link_to "Graphs list", graphs_path %>
+  </p>
   <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -24,19 +27,6 @@
           </div>
           This webapp uses the <a href="http://knsv.github.io/mermaid/index.html">mermaid</a> library to generate graphs and sequence diagrams.
           <br/> Syntax for sequence diagrams can be found <a href="http://knsv.github.io/mermaid/#sequence-diagrams">here</a>
-          <!--
-        <br/> Sample sequence syntax:
-        <br/>
-        <div class="mmcode">
-          sequenceDiagram
-          <br/> A->>B: Query
-          <br/> B->>C: Forward query
-          <br/> Note right of C: Thinking...
-          <br/> C->>B: Response
-          <br/> B->>A:Forward response
-          <br/>
-        </div>
-        -->
 
         </div>
       <%# </form>%>
@@ -56,3 +46,27 @@
       </div>
     </div>
   </div>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <script>
+    $(function(){
+      // indent when pressing tab
+      $('textarea').on('keydown', function (e) {
+          var keyCode = e.keyCode || e.which;
+
+          if (keyCode === 9) {
+              e.preventDefault();
+              var start = this.selectionStart;
+              var end = this.selectionEnd;
+              var val = this.value;
+              var selected = val.substring(start, end);
+              var re = /^/gm;
+              var count = selected.match(re).length;
+
+
+              this.value = val.substring(0, start) + selected.replace(re, ' ') + val.substring(end);
+              this.selectionStart = start;
+              this.selectionEnd = end + count;
+          }
+      });
+    });
+  </script>
