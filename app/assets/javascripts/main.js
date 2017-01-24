@@ -16,7 +16,6 @@ angular.module('angularMermaidApp')
     //   'Note right of C: Thinking...\n' +
     //   'C->> B: Response\n' +
     //   'B->> A: Forward response\n';
-    var exampleCode = document.getElementById('graph_mermaid_blob').value;
 
     $scope.viewlink = '';
     $scope.editlink = '';
@@ -54,6 +53,7 @@ angular.module('angularMermaidApp')
     $scope.$watch(function() { return $location.url(); }, route);
 
     function route() {
+      var exampleCode = document.getElementById('graph_mermaid_blob').value;
       var code;
 
       // ##uriEncodedDiagramString (for backwards compatibility)

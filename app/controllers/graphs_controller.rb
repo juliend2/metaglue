@@ -10,7 +10,7 @@ class GraphsController < ApplicationController
   def create
     @graph = Graph.new(graph_params)
     if @graph.save
-      redirect_to @graph
+      redirect_to edit_graph_path(@graph)
     else
       render 'new'
     end

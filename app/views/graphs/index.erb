@@ -1,6 +1,6 @@
 <%= link_to "new graph", :new_graph %>
 <ul>
 <%- @graphs.each do |graph| %>
-  <li><%= graph.name %></li>
+  <li><%= link_to graph.name, edit_graph_path(graph) %></li>
 <%- end %>
 </ul>
