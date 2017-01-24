@@ -13,4 +13,10 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require_tree .
+//= require angular
+//= require mermaid
+//= require materialize
+//= require angular-sanitize
+//= require angular-utf8-base64
+//= require app
+//= require main

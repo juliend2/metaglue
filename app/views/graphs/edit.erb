@@ -1,0 +1,58 @@
+  <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+  <!-- Add your site or application content here-->
+  <div class="row">
+    <span id="fluff" ng-show="showform">
+
+      <%# <form class="col s12 m12 l3">%>
+      <%= form_for @graph, url: {action: 'update'}, html: {class: "col s12 m12 l3"} do |f| %>
+        <p>name: <%= f.text_field :name %></p>
+        <p>description: <%= f.text_area :description %></p>
+        <div class="input-field col s12">
+          <textarea class="materialize-textarea" style="font-size:12px; font-family:'Consolas','Menlo',fixed-width; height:150px" required ng-model="mermaidsyntax" ng-change="checkUpdate()"></textarea>
+          <label>Enter mermaid diagram syntax here</label>
+          <p><%= f.submit "Update" %></p>
+        </div>
+        <div>
+
+          <div ng-show="showerror">
+            <br/>
+            <i class="tiny mdi-alert-error"> Invalid syntax</i>
+            <br/>
+            <br/>
+          </div>
+          This webapp uses the <a href="http://knsv.github.io/mermaid/index.html">mermaid</a> library to generate graphs and sequence diagrams.
+          <br/> Syntax for sequence diagrams can be found <a href="http://knsv.github.io/mermaid/#sequence-diagrams">here</a>
+          <!--
+        <br/> Sample sequence syntax:
+        <br/>
+        <div class="mmcode">
+          sequenceDiagram
+          <br/> A->>B: Query
+          <br/> B->>C: Forward query
+          <br/> Note right of C: Thinking...
+          <br/> C->>B: Response
+          <br/> B->>A:Forward response
+          <br/>
+        </div>
+        -->
+
+        </div>
+      <%# </form>%>
+      <%- end %>
+    </span>
+    <div ng-class="diagclass">
+      <div ng-class="cardclass">
+        <div class="card-content">
+          <span class="card-title grey-text" ng-show="showform">Generated diagram</span><br/>
+          <span id="mermaidholder"></span>
+          <span ng-show="showform">
+            <a ng-href="{{viewlink}}">LINK TO VIEW</a>
+            <a ng-href="{{editlink}}">LINK TO EDIT</a>
+            <a ng-href="{{svglink}}" download="diagram.svg">DOWNLOAD SVG</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,5 @@
+<%= form_for @graph, url: {action: "create"}, html: {class: "nifty_form"} do |f| %>
+  <p>name: <br/><%= f.text_field :name %></p>
+  <p>description:<br/><%= f.text_area :description, size: "60x12" %></p>
+  <p><%= f.submit "Create" %></p>
+<% end %>

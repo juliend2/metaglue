@@ -1,0 +1,6 @@
+<%= link_to "new graph", :new_graph %>
+<ul>
+<%- @graphs.each do |graph| %>
+  <li><%= graph.name %></li>
+<%- end %>
+</ul>
