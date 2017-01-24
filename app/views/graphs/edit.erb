@@ -10,7 +10,7 @@
         <p>name: <%= f.text_field :name %></p>
         <p>description: <%= f.text_area :description %></p>
         <div class="input-field col s12">
-          <textarea class="materialize-textarea" style="font-size:12px; font-family:'Consolas','Menlo',fixed-width; height:150px" required ng-model="mermaidsyntax" ng-change="checkUpdate()"></textarea>
+          <%= f.text_area :mermaid_blob, :class=> 'materialize-textarea', :style=> "font-size:12px; font-family:'Consolas','Menlo',fixed-width; height:150px", :"ng-model"=>"mermaidsyntax", :"ng-change"=>"checkUpdate()" %>
           <label>Enter mermaid diagram syntax here</label>
           <p><%= f.submit "Update" %></p>
         </div>

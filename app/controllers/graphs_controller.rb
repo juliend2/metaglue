@@ -36,6 +36,6 @@ class GraphsController < ApplicationController
   # permit list between create and update. Also, you can specialize
   # this method with per-user checking of permissible attributes.
   def graph_params
-    params.require(:graph).permit(:name, :description)
+    params.require(:graph).permit(:name, :description, :mermaid_blob)
   end
 end
