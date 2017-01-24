@@ -27,7 +27,7 @@ class GraphsController < ApplicationController
   def update
     graph = Graph.find(params[:id])
     graph.update!(graph_params)
-    redirect_to graph
+    redirect_to edit_graph_path(graph)
   end
 
   private

@@ -10,12 +10,13 @@
 angular.module('angularMermaidApp')
   .controller('MainCtrl', ['$scope', '$sce', '$location', 'base64', function($scope, $sce, $location, base64) {
     var absurl = window.location.href.split('#')[0];
-    var exampleCode = 'sequenceDiagram\n' +
-      'A->> B: Query\n' +
-      'B->> C: Forward query\n' +
-      'Note right of C: Thinking...\n' +
-      'C->> B: Response\n' +
-      'B->> A: Forward response\n';
+    // var exampleCode = 'sequenceDiagram\n' +
+    //   'A->> B: Query\n' +
+    //   'B->> C: Forward query\n' +
+    //   'Note right of C: Thinking...\n' +
+    //   'C->> B: Response\n' +
+    //   'B->> A: Forward response\n';
+    var exampleCode = document.getElementById('graph_mermaid_blob').value;
 
     $scope.viewlink = '';
     $scope.editlink = '';

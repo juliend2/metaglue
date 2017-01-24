@@ -9,7 +9,7 @@
     <span id="fluff" ng-show="showform">
       <form class="col s12 m12 l3">
         <div class="input-field col s12">
-          <textarea class="materialize-textarea" style="font-size:12px; font-family:'Consolas','Menlo',fixed-width; height:150px" disabled='disabled' required ng-model="mermaidsyntax" ng-change="checkUpdate()"></textarea>
+          <textarea class="materialize-textarea" id="graph_mermaid_blob" style="font-size:12px; font-family:'Consolas','Menlo',fixed-width; height:150px" disabled='disabled' required ng-model="mermaidsyntax" ng-change="checkUpdate()"><%= @graph.mermaid_blob %></textarea>
           <%= link_to "Edit", edit_graph_path(@graph) %>
         </div>
         <div>
