@@ -10504,7 +10504,7 @@ function addLabel(root, node, location) {
   // a DOM element itself.
   if (node.labelType === "svg") {
     addSVGLabel(labelSvg, node);
-  } else if (typeof label !== "string" || node.labelType === "html") {
+  } else if (typeof label !== "string" || node.labelType === "html" || node.labelType === 'youtube') {
     addHtmlLabel(labelSvg, node);
   } else {
     addTextLabel(labelSvg, node);
@@ -50855,6 +50855,16 @@ exports.addVertices = function (vert, g) {
         return styleStr;
     };
 
+    function getYoutubeId(youtubeURL) {
+      var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+      var match = youtubeURL.match(regExp);
+      if (match && match[2].length == 11) {
+        return match[2];
+      } else {
+        //error
+      }
+    }
+
     // Iterate through each item in the vertice object (containing all the vertices found) in the graph definition
     keys.forEach(function (id) {
         var vertice = vert[id];
@@ -50880,6 +50890,15 @@ exports.addVertices = function (vert, g) {
         // Create a compound style definition from the style definitions found for the node in the graph definition
         style = styleFromStyleArr(style, vertice.styles);
 
+        var isYoutube = false;
+        var youtubeLink = '';
+        var youtubeID = '';
+        if (/www.youtube.com\/watch/.test(vertice.text)) {
+          isYoutube = true;
+          youtubeLink = vertice.text;
+          youtubeID = getYoutubeId(youtubeLink);
+        }
+
         // Use vertice id as text in the box if no text is provided by the graph definition
         if (typeof vertice.text === 'undefined') {
             verticeText = vertice.id;
@@ -50889,10 +50908,16 @@ exports.addVertices = function (vert, g) {
 
         var labelTypeStr = '';
         if (conf.htmlLabels) {
-            labelTypeStr = 'html';
-            verticeText = verticeText.replace(/fa:fa[\w\-]+/g, function (s) {
-                return '<i class="fa ' + s.substring(3) + '"></i>';
-            });
+            if (isYoutube) {
+              labelTypeStr = 'youtube';
+              console.log('youtubeID', youtubeID);
+              verticeText = '<a href="'+youtubeLink+'" target="_blank"><img src="https://img.youtube.com/vi/'+youtubeID+'/default.jpg" width="77" height="48" />';
+            } else {
+              labelTypeStr = 'html';
+              verticeText = verticeText.replace(/fa:fa[\w\-]+/g, function (s) {
+                  return '<i class="fa ' + s.substring(3) + '"></i>';
+              });
+            }
         } else {
             var svg_label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
 
