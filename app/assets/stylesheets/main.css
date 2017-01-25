@@ -2,6 +2,9 @@ body {
   background: #fafafa;
   color: #333;
 }
+.wrapper {
+  padding: 0 2rem;
+}
 .actor {
   stroke: #CCCCFF;
   fill: #E2ECFF;

@@ -10504,7 +10504,7 @@ function addLabel(root, node, location) {
   // a DOM element itself.
   if (node.labelType === "svg") {
     addSVGLabel(labelSvg, node);
-  } else if (typeof label !== "string" || node.labelType === "html" || node.labelType === 'youtube') {
+  } else if (typeof label !== "string" || node.labelType === "html" || node.labelType === 'youtube' || node.labelType === 'googlemaps' || node.labelType === 'workflowy' || node.labelType === 'airtable') {
     addHtmlLabel(labelSvg, node);
   } else {
     addTextLabel(labelSvg, node);
@@ -50835,6 +50835,17 @@ module.exports.setConf = function (cnf) {
     }
 };
 
+function getYoutubeId(youtubeURL) {
+  var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  var match = youtubeURL.match(regExp);
+  if (match && match[2].length == 11) {
+    return match[2];
+  } else {
+    //error
+  }
+}
+
+
 /**
  * Function that adds the vertices found in the graph definition to the graph to be rendered.
  * @param vert Object containing the vertices.
@@ -50854,16 +50865,6 @@ exports.addVertices = function (vert, g) {
 
         return styleStr;
     };
-
-    function getYoutubeId(youtubeURL) {
-      var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-      var match = youtubeURL.match(regExp);
-      if (match && match[2].length == 11) {
-        return match[2];
-      } else {
-        //error
-      }
-    }
 
     // Iterate through each item in the vertice object (containing all the vertices found) in the graph definition
     keys.forEach(function (id) {
@@ -50899,6 +50900,29 @@ exports.addVertices = function (vert, g) {
           youtubeID = getYoutubeId(youtubeLink);
         }
 
+        var isGoogleMaps = false;
+        var googleMapsLink = '';
+        if (/goo\.gl\//.test(vertice.text) || /www\.google[^\/]+\/maps\/place\//.test(vertice.text)) {
+          // TODO: not all goo.gl URLs are maps URLs, so we should use an API
+          // key to get the right info to display the right icon
+          isGoogleMaps = true;
+          googleMapsLink = vertice.text;
+        }
+
+        var isWorkflowy = false;
+        var workflowyLink = '';
+        if (/workflowy.com/.test(vertice.text)) {
+          isWorkflowy = true;
+          workflowyLink = vertice.text;
+        }
+
+        var isAirtable = false;
+        var airtableLink = '';
+        if (/airtable.com/.test(vertice.text)) {
+          isAirtable = true;
+          airtableLink = vertice.text;
+        }
+
         // Use vertice id as text in the box if no text is provided by the graph definition
         if (typeof vertice.text === 'undefined') {
             verticeText = vertice.id;
@@ -50910,8 +50934,16 @@ exports.addVertices = function (vert, g) {
         if (conf.htmlLabels) {
             if (isYoutube) {
               labelTypeStr = 'youtube';
-              console.log('youtubeID', youtubeID);
-              verticeText = '<a href="'+youtubeLink+'" target="_blank"><img src="https://img.youtube.com/vi/'+youtubeID+'/default.jpg" width="77" height="48" />';
+              verticeText = '<a href="'+youtubeLink+'" target="_blank"><img src="https://img.youtube.com/vi/'+youtubeID+'/default.jpg" width="77" height="48" /></a>';
+            } else if (isGoogleMaps) {
+              labelTypeStr = 'googlemaps';
+              verticeText = '<a href="'+googleMapsLink+'" target="_blank"><img src="/images/icons/googlemaps-logo.jpg" width="50" height="50"/></a>';
+            } else if (isWorkflowy) {
+              labelTypeStr = 'workflowy';
+              verticeText = '<a href="'+workflowyLink+'" target="_blank"><img src="/images/icons/workflowy.png" width="50" height="50"/></a>';
+            } else if (isAirtable) {
+              labelTypeStr = 'airtable';
+              verticeText = '<a href="'+airtableLink+'" target="_blank"><img src="/images/icons/airtable-logo.png" width="50" height="50"/></a>';
             } else {
               labelTypeStr = 'html';
               verticeText = verticeText.replace(/fa:fa[\w\-]+/g, function (s) {

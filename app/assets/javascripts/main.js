@@ -81,7 +81,7 @@ angular.module('angularMermaidApp')
       $scope.mermaidsyntax = code;
       // Delete the other elements and leave only the diagram
       $scope.showform = false;
-      $scope.diagclass = 'col s12 m12 l12';
+      $scope.diagclass = '';
       $scope.cardclass = '';
       $scope.checkUpdate();
     }
@@ -89,7 +89,7 @@ angular.module('angularMermaidApp')
     function editDiagram(code) {
       $scope.mermaidsyntax = code;
       $scope.showform = true;
-      $scope.diagclass = 'col s12 m12 l9';
+      $scope.diagclass = '';
       $scope.cardclass = 'card';
       document.getElementsByClassName('materialize-textarea')[0].focus();
       $scope.checkUpdate();
