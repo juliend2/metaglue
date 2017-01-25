@@ -10504,7 +10504,7 @@ function addLabel(root, node, location) {
   // a DOM element itself.
   if (node.labelType === "svg") {
     addSVGLabel(labelSvg, node);
-  } else if (typeof label !== "string" || node.labelType === "html" || node.labelType === 'youtube' || node.labelType === 'googlemaps' || node.labelType === 'workflowy' || node.labelType === 'airtable') {
+  } else if (typeof label !== "string" || node.labelType === "html" || node.labelType === 'youtube' || node.labelType === 'googlemaps' || node.labelType === 'workflowy' || node.labelType === 'airtable' || node.labelType === 'github') {
     addHtmlLabel(labelSvg, node);
   } else {
     addTextLabel(labelSvg, node);
@@ -50923,6 +50923,13 @@ exports.addVertices = function (vert, g) {
           airtableLink = vertice.text;
         }
 
+        var isGithub = false;
+        var githubLink = '';
+        if (/github.com/.test(vertice.text)) {
+          isGithub = true;
+          githubLink = vertice.text;
+        }
+
         // Use vertice id as text in the box if no text is provided by the graph definition
         if (typeof vertice.text === 'undefined') {
             verticeText = vertice.id;
@@ -50944,6 +50951,9 @@ exports.addVertices = function (vert, g) {
             } else if (isAirtable) {
               labelTypeStr = 'airtable';
               verticeText = '<a href="'+airtableLink+'" target="_blank"><img src="/images/icons/airtable-logo.png" width="50" height="50"/></a>';
+            } else if (isGithub) {
+              labelTypeStr = 'github';
+              verticeText = '<a href="'+githubLink+'" target="_blank"><img src="/images/icons/github-logo.png" width="50" height="50"/></a>';
             } else {
               labelTypeStr = 'html';
               verticeText = verticeText.replace(/fa:fa[\w\-]+/g, function (s) {
