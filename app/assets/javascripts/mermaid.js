@@ -10504,7 +10504,7 @@ function addLabel(root, node, location) {
   // a DOM element itself.
   if (node.labelType === "svg") {
     addSVGLabel(labelSvg, node);
-  } else if (typeof label !== "string" || node.labelType === "html" || node.labelType === 'youtube' || node.labelType === 'googlemaps' || node.labelType === 'workflowy' || node.labelType === 'airtable' || node.labelType === 'github') {
+  } else if (typeof label !== "string" || (['html', 'internallink', 'weblink', 'youtube', 'googlemaps', 'workflowy', 'airtable', 'github'].indexOf(node.labelType) !== -1)) {
     addHtmlLabel(labelSvg, node);
   } else {
     addTextLabel(labelSvg, node);
@@ -50891,10 +50891,26 @@ exports.addVertices = function (vert, g) {
         // Create a compound style definition from the style definitions found for the node in the graph definition
         style = styleFromStyleArr(style, vertice.styles);
 
+        // make this first (after all other possible node types/services)
+        var isWeblink = false;
+        var webLink = '';
+        if (/^https?:\/\//.test(vertice.text)) {
+          isWeblink = true;
+          webLink = vertice.text;
+        }
+
+        var isInternallink = false;
+        var internalLink = '';
+        if (/^\//.test(vertice.text)) {
+          isInternallink = true;
+          internalLink = vertice.text;
+        }
+
         var isYoutube = false;
         var youtubeLink = '';
         var youtubeID = '';
         if (/www.youtube.com\/watch/.test(vertice.text)) {
+          isWeblink = false;
           isYoutube = true;
           youtubeLink = vertice.text;
           youtubeID = getYoutubeId(youtubeLink);
@@ -50905,6 +50921,7 @@ exports.addVertices = function (vert, g) {
         if (/goo\.gl\//.test(vertice.text) || /www\.google[^\/]+\/maps\/place\//.test(vertice.text)) {
           // TODO: not all goo.gl URLs are maps URLs, so we should use an API
           // key to get the right info to display the right icon
+          isWeblink = false;
           isGoogleMaps = true;
           googleMapsLink = vertice.text;
         }
@@ -50912,6 +50929,7 @@ exports.addVertices = function (vert, g) {
         var isWorkflowy = false;
         var workflowyLink = '';
         if (/workflowy.com/.test(vertice.text)) {
+          isWeblink = false;
           isWorkflowy = true;
           workflowyLink = vertice.text;
         }
@@ -50919,6 +50937,7 @@ exports.addVertices = function (vert, g) {
         var isAirtable = false;
         var airtableLink = '';
         if (/airtable.com/.test(vertice.text)) {
+          isWeblink = false;
           isAirtable = true;
           airtableLink = vertice.text;
         }
@@ -50926,6 +50945,7 @@ exports.addVertices = function (vert, g) {
         var isGithub = false;
         var githubLink = '';
         if (/github.com/.test(vertice.text)) {
+          isWeblink = false;
           isGithub = true;
           githubLink = vertice.text;
         }
@@ -50954,6 +50974,12 @@ exports.addVertices = function (vert, g) {
             } else if (isGithub) {
               labelTypeStr = 'github';
               verticeText = '<a href="'+githubLink+'" target="_blank"><img src="/images/icons/github-logo.png" width="50" height="50"/></a>';
+            } else if (isWeblink) {
+              labelTypeStr = 'weblink';
+              verticeText = '<a href="'+webLink+'" class="weblink" target="_blank"><img src="/images/icons/weblink-icon.jpg" width="30" height="30"/><br/>'+vertice.id+'</a>';
+            } else if (isInternallink) {
+              labelTypeStr = 'internallink';
+              verticeText = '<a href="'+internalLink+'" class="internallink" target="_blank"><img src="/images/icons/metaglue-logo.png" width="30" height="30"/><br/>'+vertice.id+'</a>';
             } else {
               labelTypeStr = 'html';
               verticeText = verticeText.replace(/fa:fa[\w\-]+/g, function (s) {
