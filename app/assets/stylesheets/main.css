@@ -79,6 +79,10 @@ text.actor {
 
 /* overrides */
 
+a.icon {
+  margin-right: 0;
+  display: inline-block;
+}
 a.weblink,
 a.internallink {
   text-transform: none;
@@ -86,7 +90,6 @@ a.internallink {
   text-align: center;
   min-width: 50px;
   display: inline-block;
-  margin-right: 0;
 }
 a.weblink:hover ,
 a.internallink:hover {

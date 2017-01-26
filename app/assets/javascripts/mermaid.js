@@ -50961,25 +50961,25 @@ exports.addVertices = function (vert, g) {
         if (conf.htmlLabels) {
             if (isYoutube) {
               labelTypeStr = 'youtube';
-              verticeText = '<a href="'+youtubeLink+'" target="_blank"><img src="https://img.youtube.com/vi/'+youtubeID+'/default.jpg" width="77" height="48" /></a>';
+              verticeText = '<a href="'+youtubeLink+'" class="icon" target="_blank"><img src="https://img.youtube.com/vi/'+youtubeID+'/default.jpg" width="77" height="48" /></a>';
             } else if (isGoogleMaps) {
               labelTypeStr = 'googlemaps';
-              verticeText = '<a href="'+googleMapsLink+'" target="_blank"><img src="/images/icons/googlemaps-logo.jpg" width="50" height="50"/></a>';
+              verticeText = '<a href="'+googleMapsLink+'" class="icon" target="_blank"><img src="/images/icons/googlemaps-logo.jpg" width="50" height="50"/></a>';
             } else if (isWorkflowy) {
               labelTypeStr = 'workflowy';
-              verticeText = '<a href="'+workflowyLink+'" target="_blank"><img src="/images/icons/workflowy.png" width="50" height="50"/></a>';
+              verticeText = '<a href="'+workflowyLink+'" class="icon" target="_blank"><img src="/images/icons/workflowy.png" width="50" height="50"/></a>';
             } else if (isAirtable) {
               labelTypeStr = 'airtable';
-              verticeText = '<a href="'+airtableLink+'" target="_blank"><img src="/images/icons/airtable-logo.png" width="50" height="50"/></a>';
+              verticeText = '<a href="'+airtableLink+'" class="icon" target="_blank"><img src="/images/icons/airtable-logo.png" width="50" height="50"/></a>';
             } else if (isGithub) {
               labelTypeStr = 'github';
-              verticeText = '<a href="'+githubLink+'" target="_blank"><img src="/images/icons/github-logo.png" width="50" height="50"/></a>';
+              verticeText = '<a href="'+githubLink+'" class="icon" target="_blank"><img src="/images/icons/github-logo.png" width="50" height="50"/></a>';
             } else if (isWeblink) {
               labelTypeStr = 'weblink';
-              verticeText = '<a href="'+webLink+'" class="weblink" target="_blank"><img src="/images/icons/weblink-icon.jpg" width="30" height="30"/><br/>'+vertice.id+'</a>';
+              verticeText = '<a href="'+webLink+'" class="icon weblink" target="_blank"><img src="/images/icons/weblink-icon.jpg" width="30" height="30"/><br/>'+vertice.id+'</a>';
             } else if (isInternallink) {
               labelTypeStr = 'internallink';
-              verticeText = '<a href="'+internalLink+'" class="internallink" target="_blank"><img src="/images/icons/metaglue-logo.png" width="30" height="30"/><br/>'+vertice.id+'</a>';
+              verticeText = '<a href="'+internalLink+'" class="icon internallink" target="_blank"><img src="/images/icons/metaglue-logo.png" width="30" height="30"/><br/>'+vertice.id+'</a>';
             } else {
               labelTypeStr = 'html';
               verticeText = verticeText.replace(/fa:fa[\w\-]+/g, function (s) {
