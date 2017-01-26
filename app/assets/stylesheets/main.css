@@ -104,3 +104,8 @@ textarea.materialize-textarea {
 .edgeLabel {
   background: rgba(255,255,255,0.7);
 }
+h1 {
+  font-size: 1.6rem;
+  line-height: 1;
+  margin: 1rem 0;
+}
