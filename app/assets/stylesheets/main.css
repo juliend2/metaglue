@@ -98,3 +98,6 @@ textarea.materialize-textarea {
   overflow-y: scroll;
 }
 
+.edgeLabel {
+  background: rgba(255,255,255,0.7);
+}
