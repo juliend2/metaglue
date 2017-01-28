@@ -6,8 +6,17 @@ function goThere(element) {
 </script>
 
 <h3><%= link_to "new graph", :new_graph %></h3>
-<ul>
+
+<table class="hoverable">
 <%- @graphs.each do |graph| %>
-  <li><a href="#" data-href="<%= edit_graph_path(graph) %>" onclick="return goThere(this); return false;"><%= graph.name %></a></li>
+  <tr>
+    <td>
+      <a href="#" data-href="<%= edit_graph_path(graph) %>" onclick="return goThere(this); return false;"><%= graph.name %></a>
+    </td>
+    <td>
+      <%= link_to "Delete", graph, method: :delete, data: {confirm: "You sure?"} %>
+    </td>
+  </tr>
 <%- end %>
-</ul>
+</table>
+<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>

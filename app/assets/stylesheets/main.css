@@ -77,8 +77,12 @@ text.actor {
   padding: 0.2em 0;
 }
 
-/* overrides */
 
+/* OVERRIDES */
+
+table.hoverable tr:hover td {
+  background: #fff;
+}
 a.icon {
   margin-right: 0;
   display: inline-block;
@@ -109,3 +113,4 @@ h1 {
   line-height: 1;
   margin: 1rem 0;
 }
+

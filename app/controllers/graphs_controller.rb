@@ -30,6 +30,12 @@ class GraphsController < ApplicationController
     redirect_to edit_graph_path(graph)
   end
 
+  def destroy
+    Graph.find(params[:id]).destroy
+    flash[:success] = "Graph deleted"
+    redirect_to graphs_url
+  end
+
   private
   # Using a private method to encapsulate the permissible parameters
   # is just a good pattern since you'll be able to reuse the same
