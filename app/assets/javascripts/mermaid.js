@@ -50918,9 +50918,7 @@ exports.addVertices = function (vert, g) {
 
         var isGoogleMaps = false;
         var googleMapsLink = '';
-        if (/goo\.gl\//.test(vertice.text) || /www\.google[^\/]+\/maps\/place\//.test(vertice.text)) {
-          // TODO: not all goo.gl URLs are maps URLs, so we should use an API
-          // key to get the right info to display the right icon
+        if (/goo\.gl\/maps\//.test(vertice.text) || /www\.google[^\/]+\/maps\/place\//.test(vertice.text)) {
           isWeblink = false;
           isGoogleMaps = true;
           googleMapsLink = vertice.text;
