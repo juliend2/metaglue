@@ -10504,7 +10504,7 @@ function addLabel(root, node, location) {
   // a DOM element itself.
   if (node.labelType === "svg") {
     addSVGLabel(labelSvg, node);
-  } else if (typeof label !== "string" || (['html', 'internallink', 'weblink', 'textblob', 'youtube', 'dropbox', 'googlemaps', 'workflowy', 'airtable', 'github', 'gist'].indexOf(node.labelType) !== -1)) {
+  } else if (typeof label !== "string" || (['html', 'internallink', 'weblink', 'textblob', 'youtube', 'localfile', 'dropbox', 'googlemaps', 'workflowy', 'airtable', 'github', 'gist'].indexOf(node.labelType) !== -1)) {
     addHtmlLabel(labelSvg, node);
   } else {
     addTextLabel(labelSvg, node);
@@ -50899,6 +50899,14 @@ exports.addVertices = function (vert, g) {
           webLink = vertice.text;
         }
 
+        var isLocalFile = false;
+        var localFileLink = '';
+        if (/^file:\/\//.test(vertice.text)) {
+          isWeblink = false;
+          isLocalFile = true;
+          localFileLink = vertice.text;
+        }
+
         var isInternallink = false;
         var internalLink = '';
         if (/^\//.test(vertice.text)) {
@@ -51001,13 +51009,16 @@ exports.addVertices = function (vert, g) {
               verticeText = '<a href="'+airtableLink+'" class="icon" target="_blank"><img src="/images/icons/airtable-logo.png" width="50" height="50"/></a>';
             } else if (isGithub) {
               labelTypeStr = 'github';
-              verticeText = '<a href="'+githubLink+'" class="icon" target="_blank"><img src="/images/icons/github-logo.png" width="50" height="50"/></a>';
+              verticeText = '<a href="'+githubLink+'" class="icon githublink" target="_blank"><img src="/images/icons/github-logo.png" width="50" height="50"/></a>';
             } else if (isGist) {
               labelTypeStr = 'gist';
-              verticeText = '<a href="'+gistLink+'" class="icon" target="_blank"><img src="/images/icons/github-logo.png" width="50" height="50"/><br/>see gist</a>';
+              verticeText = '<a href="'+gistLink+'" class="icon gistlink" target="_blank"><img src="/images/icons/github-logo.png" width="50" height="50"/><br/>see gist</a>';
             } else if (isTextBlob) {
               labelTypeStr = 'textblob';
               verticeText = '<div class="textblob">'+textBlob+'</div>';
+            } else if (isLocalFile) {
+              labelTypeStr = 'localfile';
+              verticeText = '<a href="'+localFileLink+'" class="icon localfile" target="_blank"><img src="/images/icons/localfile-icon.png" width="30" height="30"/><br/>'+vertice.id+'</a>';
             } else if (isWeblink) {
               labelTypeStr = 'weblink';
               verticeText = '<a href="'+webLink+'" class="icon weblink" target="_blank"><img src="/images/icons/weblink-icon.jpg" width="30" height="30"/><br/>'+vertice.id+'</a>';
