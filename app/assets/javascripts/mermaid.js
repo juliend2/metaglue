@@ -10504,7 +10504,7 @@ function addLabel(root, node, location) {
   // a DOM element itself.
   if (node.labelType === "svg") {
     addSVGLabel(labelSvg, node);
-  } else if (typeof label !== "string" || (['html', 'internallink', 'weblink', 'youtube', 'googlemaps', 'workflowy', 'airtable', 'github'].indexOf(node.labelType) !== -1)) {
+  } else if (typeof label !== "string" || (['html', 'internallink', 'weblink', 'textblob', 'youtube', 'dropbox', 'googlemaps', 'workflowy', 'airtable', 'github', 'gist'].indexOf(node.labelType) !== -1)) {
     addHtmlLabel(labelSvg, node);
   } else {
     addTextLabel(labelSvg, node);
@@ -50916,12 +50916,30 @@ exports.addVertices = function (vert, g) {
           youtubeID = getYoutubeId(youtubeLink);
         }
 
+        var isTextBlob = false;
+        var textBlob = '';
+        if (/<div>/.test(vertice.text)) {
+          isWeblink = false;
+          isTextBlob = true;
+          var textBlobMatch = vertice.text.match(/<div>([\s\S]*)<\/div>/i);
+          var converter = new showdown.Converter();
+          textBlob = '<div style="max-width:200px;max-height:200px;overflow-y:scroll;overflow-x:auto;white-space:initial;">'+ converter.makeHtml(textBlobMatch[1])+'</div>';
+        }
+
         var isGoogleMaps = false;
         var googleMapsLink = '';
         if (/goo\.gl\/maps\//.test(vertice.text) || /www\.google[^\/]+\/maps\/place\//.test(vertice.text)) {
           isWeblink = false;
           isGoogleMaps = true;
           googleMapsLink = vertice.text;
+        }
+
+        var isDropbox = false;
+        var dropboxLink = '';
+        if (/www\.dropbox\.com\/s\//.test(vertice.text)) {
+          isWeblink = false;
+          isDropbox = true;
+          dropboxLink = vertice.text;
         }
 
         var isWorkflowy = false;
@@ -50948,6 +50966,15 @@ exports.addVertices = function (vert, g) {
           githubLink = vertice.text;
         }
 
+        var isGist = false;
+        var gistLink = '';
+        if (/gist.github.com/.test(vertice.id) || /gist.github.com/.test(vertice.text)) {
+          isWeblink = false;
+          isGithub = false;
+          isGist = true;
+          gistLink = (typeof vertice.text == 'undefined') ? vertice.id : vertice.text;
+        }
+
         // Use vertice id as text in the box if no text is provided by the graph definition
         if (typeof vertice.text === 'undefined') {
             verticeText = vertice.id;
@@ -50963,6 +50990,9 @@ exports.addVertices = function (vert, g) {
             } else if (isGoogleMaps) {
               labelTypeStr = 'googlemaps';
               verticeText = '<a href="'+googleMapsLink+'" class="icon" target="_blank"><img src="/images/icons/googlemaps-logo.jpg" width="50" height="50"/></a>';
+            } else if (isDropbox) {
+              labelTypeStr = 'dropbox';
+              verticeText = '<a href="'+dropboxLink+'" class="icon" target="_blank"><img src="/images/icons/dropbox-logo.png" width="50" height="50"/></a>';
             } else if (isWorkflowy) {
               labelTypeStr = 'workflowy';
               verticeText = '<a href="'+workflowyLink+'" class="icon" target="_blank"><img src="/images/icons/workflowy.png" width="50" height="50"/></a>';
@@ -50972,6 +51002,12 @@ exports.addVertices = function (vert, g) {
             } else if (isGithub) {
               labelTypeStr = 'github';
               verticeText = '<a href="'+githubLink+'" class="icon" target="_blank"><img src="/images/icons/github-logo.png" width="50" height="50"/></a>';
+            } else if (isGist) {
+              labelTypeStr = 'gist';
+              verticeText = '<a href="'+gistLink+'" class="icon" target="_blank"><img src="/images/icons/github-logo.png" width="50" height="50"/><br/>see gist</a>';
+            } else if (isTextBlob) {
+              labelTypeStr = 'textblob';
+              verticeText = '<div class="textblob">'+textBlob+'</div>';
             } else if (isWeblink) {
               labelTypeStr = 'weblink';
               verticeText = '<a href="'+webLink+'" class="icon weblink" target="_blank"><img src="/images/icons/weblink-icon.jpg" width="30" height="30"/><br/>'+vertice.id+'</a>';

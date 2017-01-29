@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require angular
+//= require showdown
 //= require mermaid
 //= require angular-sanitize
 //= require angular-utf8-base64
