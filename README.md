@@ -25,4 +25,7 @@ You will need to install the [locallinks](https://chrome.google.com/webstore/det
   the thumbnail we get from the API, if we don't have network when loading the
   page if the app is served locally).
 
+## License
+
+MIT.
 
