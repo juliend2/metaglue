@@ -1,6 +1,8 @@
 MetaGlue
 ========
 
+![screenshot](https://github.com/juliend2/metaglue/blob/master/public/images/metaglue-screenshot.gif)
+
 ## Installation
 
 1. `git clone https://github.com/juliend2/metaglue.git`
