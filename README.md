@@ -8,6 +8,7 @@ MetaGlue
 3. `bundle install`
 4. `rake db:migrate`
 5. `rails server --port=4444`
+6. `open http://localhost:4444/`
 
 ## Note regarding local files
 
