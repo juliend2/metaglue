@@ -1,9 +1,18 @@
 MetaGlue
 ========
 
+## Installation
+
+1. `git clone https://github.com/juliend2/metaglue.git`
+2. `cd metaglue`
+3. `bundle install`
+4. `rake db:migrate`
+5. `rails server --port=4444`
+
 ## Note regarding local files
 
 You will need to install the [locallinks](https://chrome.google.com/webstore/detail/locallinks/jllpkdkcdjndhggodimiphkghogcpida/related) extension, if you intend to use local file nodes (starting with file:///), because you need to bypass the Google Chrome security measure that prevents you from opening file:/// URLs from an http(s):// URL.
+
 
 ## TODO
 
