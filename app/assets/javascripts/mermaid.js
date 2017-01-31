@@ -10504,7 +10504,7 @@ function addLabel(root, node, location) {
   // a DOM element itself.
   if (node.labelType === "svg") {
     addSVGLabel(labelSvg, node);
-  } else if (typeof label !== "string" || (['html', 'internallink', 'weblink', 'textblob', 'youtube', 'localfile', 'dropbox', 'googlemaps', 'workflowy', 'airtable', 'github', 'gist'].indexOf(node.labelType) !== -1)) {
+  } else if (typeof label !== "string" || (['html', 'internallink', 'weblink', 'textblob', 'youtube', 'localfile', 'remoteimage', 'dropbox', 'googlemaps', 'workflowy', 'airtable', 'github', 'gist'].indexOf(node.labelType) !== -1)) {
     addHtmlLabel(labelSvg, node);
   } else {
     addTextLabel(labelSvg, node);
@@ -50894,9 +50894,11 @@ exports.addVertices = function (vert, g) {
         // make this first (after all other possible node types/services)
         var isWeblink = false;
         var webLink = '';
-        if (/^https?:\/\//.test(vertice.text)) {
+        var webLinkLabel = '';
+        if (/^https?:\/\//.test(vertice.id) || /^https?:\/\//.test(vertice.text)) {
           isWeblink = true;
-          webLink = vertice.text;
+          webLink = vertice.text ? vertice.text : vertice.id;
+          webLinkLabel = /^https?:\/\//.test(vertice.id) ? vertice.id.replace(/^https?:\/\//, '').slice(0, 15) + '&hellip;' + vertice.id.slice(-20) : vertice.id;
         }
 
         var isLocalFile = false;
@@ -50922,6 +50924,14 @@ exports.addVertices = function (vert, g) {
           isYoutube = true;
           youtubeLink = vertice.text;
           youtubeID = getYoutubeId(youtubeLink);
+        }
+
+        var isRemoteImage = false;
+        var remoteImageLink = '';
+        if (/.*\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)/.test(vertice.text)) {
+          isWeblink = false;
+          isRemoteImage = true;
+          remoteImageLink = vertice.text;
         }
 
         var isTextBlob = false;
@@ -50995,6 +51005,9 @@ exports.addVertices = function (vert, g) {
             if (isYoutube) {
               labelTypeStr = 'youtube';
               verticeText = '<a href="'+youtubeLink+'" class="icon" target="_blank"><img src="https://img.youtube.com/vi/'+youtubeID+'/default.jpg" width="77" height="48" /></a>';
+            } else if (isRemoteImage) {
+              labelTypeStr = 'remoteimage';
+              verticeText = '<a href="'+remoteImageLink+'" class="icon" target="_blank"><img src="'+remoteImageLink+'" width="70" height="70" /></a>';
             } else if (isGoogleMaps) {
               labelTypeStr = 'googlemaps';
               verticeText = '<a href="'+googleMapsLink+'" class="icon" target="_blank"><img src="/images/icons/googlemaps-logo.jpg" width="50" height="50"/></a>';
@@ -51021,7 +51034,7 @@ exports.addVertices = function (vert, g) {
               verticeText = '<a href="'+localFileLink+'" class="icon localfile" target="_blank"><img src="/images/icons/localfile-icon.png" width="30" height="30"/><br/>'+vertice.id+'</a>';
             } else if (isWeblink) {
               labelTypeStr = 'weblink';
-              verticeText = '<a href="'+webLink+'" class="icon weblink" target="_blank"><img src="/images/icons/weblink-icon.jpg" width="30" height="30"/><br/>'+vertice.id+'</a>';
+              verticeText = '<a href="'+webLink+'" class="icon weblink" target="_blank"><img src="/images/icons/weblink-icon.jpg" width="30" height="30"/><br/>'+webLinkLabel+'</a>';
             } else if (isInternallink) {
               labelTypeStr = 'internallink';
               verticeText = '<a href="'+internalLink+'" class="icon internallink" target="_blank"><img src="/images/icons/metaglue-logo.png" width="30" height="30"/><br/>'+vertice.id+'</a>';

@@ -167,3 +167,7 @@ h5 {
   padding: 5px 3px !important;
   background: white !important;
 }
+.card ul,
+.card ul li {
+  list-style-type: disc !important;
+}
