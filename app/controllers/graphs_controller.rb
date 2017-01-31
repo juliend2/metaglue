@@ -1,6 +1,6 @@
 class GraphsController < ApplicationController
   def index
-    @graphs = Graph.all
+    @graphs = Graph.all.sort_by{|g| g.name.downcase }
   end
 
   def new
