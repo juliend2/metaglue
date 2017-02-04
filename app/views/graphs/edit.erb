@@ -16,7 +16,7 @@
         <div class="right" style='margin-bottom: 1rem;'>
           <p><label>mermaid code:</label></p>
           <div class="input-field">
-            <%= f.text_area :mermaid_blob, :class=> 'materialize-textarea', :style=> "font-size:12px; font-family:'Consolas','Menlo',fixed-width; height:250px; margin-bottom: 0;", :"ng-model"=>"mermaidsyntax", :"ng-change"=>"checkUpdate()" %>
+            <%= f.text_area :mermaid_blob, :class=> 'materialize-textarea', :style=> "font-size:12px; font-family:'Consolas','Menlo',fixed-width; height:250px; margin-bottom: 0;", :"ng-model"=>"mermaidsyntax", :"ng-blur"=>"checkUpdate()" %>
             <p style="margin-top: 0;"><%= f.submit "Save" %></p>
           </div>
           <div>

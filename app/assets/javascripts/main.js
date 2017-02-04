@@ -25,29 +25,27 @@ angular.module('angularMermaidApp')
     $scope.checkUpdate = function() {
       $scope.viewlink = buildURL('view', $scope.mermaidsyntax);
       $scope.editlink = buildURL('edit', $scope.mermaidsyntax);
-      setTimeout(function() {
-        var syntax = $sce.trustAsHtml($scope.mermaidsyntax) + '\n';
-        // Delete and re add the mermaid node from the DOM
-        var mermaidholder = document.getElementById('mermaidholder');
-        //Delete the exisiting child nodes
-        while (mermaidholder.firstChild) {
-          mermaidholder.removeChild(mermaidholder.firstChild);
-        }
+      var syntax = $sce.trustAsHtml($scope.mermaidsyntax) + '\n';
+      // Delete and re add the mermaid node from the DOM
+      var mermaidholder = document.getElementById('mermaidholder');
+      //Delete the exisiting child nodes
+      while (mermaidholder.firstChild) {
+        mermaidholder.removeChild(mermaidholder.firstChild);
+      }
 
-        if (mermaid.parse(syntax)) { //jshint ignore:line
-          $scope.showerror = false;
-          //Add the new node
-          var mermaidnode = document.createElement('div');
-          mermaidnode.className = 'mermaid';
-          mermaidnode.appendChild(document.createTextNode($sce.trustAsHtml($scope.mermaidsyntax)));
-          mermaidholder.appendChild(mermaidnode);
-          mermaid.init(); // jshint ignore:line
-          $scope.svglink = buildSVGURL();
-        } else {
-          $scope.showerror = true;
-        }
-        $scope.$apply();
-      }, 1000);
+      if (mermaid.parse(syntax)) { //jshint ignore:line
+        $scope.showerror = false;
+        //Add the new node
+        var mermaidnode = document.createElement('div');
+        mermaidnode.className = 'mermaid';
+        mermaidnode.appendChild(document.createTextNode($sce.trustAsHtml($scope.mermaidsyntax)));
+        mermaidholder.appendChild(mermaidnode);
+        mermaid.init(); // jshint ignore:line
+        $scope.svglink = buildSVGURL();
+      } else {
+        $scope.showerror = true;
+      }
+      $scope.$apply();
     };
 
     $scope.$watch(function() { return $location.url(); }, route);
