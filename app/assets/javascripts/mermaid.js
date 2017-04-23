@@ -50919,11 +50919,13 @@ exports.addVertices = function (vert, g) {
         var isYoutube = false;
         var youtubeLink = '';
         var youtubeID = '';
+        var youtubeLinkLabel = '';
         if (/www.youtube.com\/watch/.test(vertice.text)) {
           isWeblink = false;
           isYoutube = true;
           youtubeLink = vertice.text;
           youtubeID = getYoutubeId(youtubeLink);
+          youtubeLinkLabel = /^https?:\/\//.test(vertice.id) ? '' : vertice.id;
         }
 
         var isRemoteImage = false;
@@ -51004,7 +51006,7 @@ exports.addVertices = function (vert, g) {
         if (conf.htmlLabels) {
             if (isYoutube) {
               labelTypeStr = 'youtube';
-              verticeText = '<a href="'+youtubeLink+'" class="icon" target="_blank"><img src="https://img.youtube.com/vi/'+youtubeID+'/default.jpg" width="77" height="48" /></a>';
+              verticeText = '<a href="'+youtubeLink+'" class="icon" target="_blank"><img src="https://img.youtube.com/vi/'+youtubeID+'/default.jpg" width="77" height="48" /><br/>'+youtubeLinkLabel+'</a>';
             } else if (isRemoteImage) {
               labelTypeStr = 'remoteimage';
               verticeText = '<a href="'+remoteImageLink+'" class="icon" target="_blank"><img src="'+remoteImageLink+'" width="70" height="70" /></a>';
